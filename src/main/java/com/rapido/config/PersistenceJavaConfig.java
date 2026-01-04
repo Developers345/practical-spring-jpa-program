@@ -9,6 +9,7 @@ import org.springframework.context.annotation.PropertySource;
 import org.springframework.core.env.Environment;
 import org.springframework.jdbc.datasource.DriverManagerDataSource;
 import org.springframework.orm.jpa.JpaTransactionManager;
+import org.springframework.orm.jpa.JpaVendorAdapter;
 import org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean;
 import org.springframework.orm.jpa.vendor.HibernateJpaVendorAdapter;
 import org.springframework.transaction.annotation.EnableTransactionManagement;
@@ -43,14 +44,20 @@ public class PersistenceJavaConfig {
     {
         LocalContainerEntityManagerFactoryBean localContainerEntityManagerFactoryBean = null;
         Properties props = null;
+       // HibernateJpaVendorAdapter jpaVendorAdapter = null;
 
         localContainerEntityManagerFactoryBean = new LocalContainerEntityManagerFactoryBean();
         localContainerEntityManagerFactoryBean.setDataSource(dataSource);
+
         props = new Properties();
         props.put("hibernate.show_sql","true");
         localContainerEntityManagerFactoryBean.setJpaProperties(props);
+        //jpaVendorAdapter = new HibernateJpaVendorAdapter();
+       // jpaVendorAdapter.setShowSql(true);
         localContainerEntityManagerFactoryBean.setJpaVendorAdapter(new HibernateJpaVendorAdapter());
         localContainerEntityManagerFactoryBean.setPackagesToScan("com.rapido.entities");
+        localContainerEntityManagerFactoryBean.setPersistenceUnitName("rapidoPu");
+
         return localContainerEntityManagerFactoryBean;
     }
 
